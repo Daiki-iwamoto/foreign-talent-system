@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { StatusBadge } from "@/components/candidates/status-badge";
+import { InlineStatusChanger } from "@/components/candidates/inline-status-changer";
 import type { CandidateStatus } from "@/lib/status";
 
 type Props = {
@@ -24,7 +24,7 @@ export function CandidateRow({ id, full_name, nationality, industry, current_sta
       <TableCell>{nationality ?? "—"}</TableCell>
       <TableCell>{industry ?? "—"}</TableCell>
       <TableCell>
-        <StatusBadge status={current_status} />
+        <InlineStatusChanger candidateId={id} currentStatus={current_status} />
       </TableCell>
     </TableRow>
   );
