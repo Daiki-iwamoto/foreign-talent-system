@@ -1,0 +1,6 @@
+# Supabase CLI config
+# `supabase link --project-ref <ref>` 実行後、project_id が自動設定されます
+project_id = "foreign-talent-system"
+
+[db]
+major_version = 15
