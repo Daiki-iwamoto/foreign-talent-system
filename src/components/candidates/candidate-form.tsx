@@ -50,10 +50,10 @@ export function CandidateFormFields({
         <Input id={id("job_title")} {...register("job_title")} />
       </Field>
       <Field label="職歴サマリー" error={errors.work_history?.message} fullWidth>
-        <Textarea id={id("work_history")} rows={4} {...register("work_history")} />
+        <Textarea id={id("work_history")} rows={8} {...register("work_history")} />
       </Field>
       <Field label="学歴サマリー" error={errors.education?.message} fullWidth>
-        <Textarea id={id("education")} rows={3} {...register("education")} />
+        <Textarea id={id("education")} rows={6} {...register("education")} />
       </Field>
       <Field label="社内メモ" error={errors.memo?.message} fullWidth>
         <Textarea id={id("memo")} rows={3} {...register("memo")} />
