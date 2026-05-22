@@ -25,6 +25,7 @@ export function CandidateEditForm({ candidate }: { candidate: Candidate }) {
       email: candidate.email ?? "",
       phone: candidate.phone ?? "",
       industry: candidate.industry ?? "",
+      company_name: candidate.company_name ?? "",
       job_title: candidate.job_title ?? "",
       work_history: candidate.work_history ?? "",
       education: candidate.education ?? "",

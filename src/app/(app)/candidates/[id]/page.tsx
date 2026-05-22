@@ -86,36 +86,39 @@ export default async function CandidateDetailPage({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        <div className="space-y-4">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">基本情報</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CandidateEditForm candidate={candidate} />
-            </CardContent>
-          </Card>
+      <div className="space-y-4">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">基本情報</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CandidateEditForm candidate={candidate} />
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">ステータス履歴</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <StatusTimeline items={history} />
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">履歴書PDF</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <PdfViewer candidateId={candidate.id} />
+          </CardContent>
+        </Card>
 
-          <p className="text-xs text-muted-foreground text-right">
-            登録: {format(new Date(candidate.created_at), "yyyy/MM/dd HH:mm", { locale: ja })}
-            {" · "}
-            更新: {format(new Date(candidate.updated_at), "yyyy/MM/dd HH:mm", { locale: ja })}
-          </p>
-        </div>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">ステータス履歴</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <StatusTimeline items={history} />
+          </CardContent>
+        </Card>
 
-        <div className="xl:sticky xl:top-4 self-start">
-          <PdfViewer candidateId={candidate.id} />
-        </div>
+        <p className="text-xs text-muted-foreground text-right">
+          登録: {format(new Date(candidate.created_at), "yyyy/MM/dd HH:mm", { locale: ja })}
+          {" · "}
+          更新: {format(new Date(candidate.updated_at), "yyyy/MM/dd HH:mm", { locale: ja })}
+        </p>
       </div>
     </div>
   );

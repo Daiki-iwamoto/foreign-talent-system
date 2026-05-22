@@ -43,6 +43,9 @@ export function CandidateFormFields({
       <Field label="業界" error={errors.industry?.message}>
         <Input id={id("industry")} {...register("industry")} />
       </Field>
+      <Field label="企業名" error={errors.company_name?.message}>
+        <Input id={id("company_name")} {...register("company_name")} />
+      </Field>
       <Field label="職種" error={errors.job_title?.message}>
         <Input id={id("job_title")} {...register("job_title")} />
       </Field>

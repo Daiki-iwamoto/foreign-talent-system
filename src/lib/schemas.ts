@@ -35,6 +35,7 @@ export const candidateFormSchema = z.object({
     ),
   phone: optionalNullableString,
   industry: optionalNullableString,
+  company_name: optionalNullableString,
   job_title: optionalNullableString,
   work_history: optionalNullableString,
   education: optionalNullableString,

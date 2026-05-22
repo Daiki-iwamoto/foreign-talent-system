@@ -15,6 +15,7 @@ export type Database = {
           email: string | null;
           phone: string | null;
           industry: string | null;
+          company_name: string | null;
           job_title: string | null;
           work_history: string | null;
           education: string | null;
@@ -35,6 +36,7 @@ export type Database = {
           email?: string | null;
           phone?: string | null;
           industry?: string | null;
+          company_name?: string | null;
           job_title?: string | null;
           work_history?: string | null;
           education?: string | null;
@@ -55,6 +57,7 @@ export type Database = {
           email?: string | null;
           phone?: string | null;
           industry?: string | null;
+          company_name?: string | null;
           job_title?: string | null;
           work_history?: string | null;
           education?: string | null;

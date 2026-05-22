@@ -123,6 +123,7 @@ function ItemCard({
           email: item.extracted.email ?? "",
           phone: item.extracted.phone ?? "",
           industry: item.extracted.industry ?? "",
+          company_name: "",
           job_title: item.extracted.job_title ?? "",
           work_history: item.extracted.work_history ?? "",
           education: item.extracted.education ?? "",

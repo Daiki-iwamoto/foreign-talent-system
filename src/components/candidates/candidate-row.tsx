@@ -10,10 +10,18 @@ type Props = {
   full_name: string;
   nationality: string | null;
   industry: string | null;
+  company_name: string | null;
   current_status: CandidateStatus;
 };
 
-export function CandidateRow({ id, full_name, nationality, industry, current_status }: Props) {
+export function CandidateRow({
+  id,
+  full_name,
+  nationality,
+  industry,
+  company_name,
+  current_status,
+}: Props) {
   const router = useRouter();
   return (
     <TableRow
@@ -23,6 +31,7 @@ export function CandidateRow({ id, full_name, nationality, industry, current_sta
       <TableCell className="font-medium">{full_name}</TableCell>
       <TableCell>{nationality ?? "—"}</TableCell>
       <TableCell>{industry ?? "—"}</TableCell>
+      <TableCell>{company_name ?? "—"}</TableCell>
       <TableCell>
         <InlineStatusChanger candidateId={id} currentStatus={current_status} />
       </TableCell>

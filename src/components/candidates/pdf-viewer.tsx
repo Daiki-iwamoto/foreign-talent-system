@@ -21,7 +21,7 @@ export function PdfViewer({ candidateId }: { candidateId: string }) {
       <iframe
         src={src}
         title="履歴書PDF"
-        className="w-full h-[calc(100vh-220px)] min-h-[600px] bg-white"
+        className="w-full h-[900px] bg-white"
       />
     </div>
   );

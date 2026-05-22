@@ -36,15 +36,16 @@ export default async function CandidatesPage({
   const supabase = await createClient();
   let query = supabase
     .from("candidates")
-    .select("id, full_name, nationality, industry, current_status, created_at", {
-      count: "exact",
-    })
+    .select(
+      "id, full_name, nationality, industry, company_name, current_status, created_at",
+      { count: "exact" }
+    )
     .order("created_at", { ascending: false });
 
   if (q) {
     const escaped = q.replace(/[%,]/g, (m) => `\\${m}`);
     query = query.or(
-      `full_name.ilike.%${escaped}%,nationality.ilike.%${escaped}%,industry.ilike.%${escaped}%`
+      `full_name.ilike.%${escaped}%,nationality.ilike.%${escaped}%,industry.ilike.%${escaped}%,company_name.ilike.%${escaped}%`
     );
   }
   if (statusFilter.length > 0) {
@@ -78,23 +79,24 @@ export default async function CandidatesPage({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[28%]">氏名</TableHead>
-              <TableHead className="w-[20%]">国籍</TableHead>
-              <TableHead className="w-[30%]">業界</TableHead>
-              <TableHead className="w-[22%]">ステータス</TableHead>
+              <TableHead className="w-[22%]">氏名</TableHead>
+              <TableHead className="w-[14%]">国籍</TableHead>
+              <TableHead className="w-[20%]">業界</TableHead>
+              <TableHead className="w-[24%]">企業名</TableHead>
+              <TableHead className="w-[20%]">ステータス</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {error && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-destructive py-12">
+                <TableCell colSpan={5} className="text-center text-destructive py-12">
                   読み込みに失敗しました: {error.message}
                 </TableCell>
               </TableRow>
             )}
             {!error && (candidates?.length ?? 0) === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground py-12">
+                <TableCell colSpan={5} className="text-center text-muted-foreground py-12">
                   該当する求職者がいません
                 </TableCell>
               </TableRow>
@@ -106,6 +108,7 @@ export default async function CandidatesPage({
                 full_name={c.full_name}
                 nationality={c.nationality}
                 industry={c.industry}
+                company_name={c.company_name}
                 current_status={c.current_status}
               />
             ))}

@@ -69,7 +69,7 @@ export function CandidatesFilterBar() {
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="氏名・国籍・業界で検索"
+          placeholder="氏名・国籍・業界・企業名で検索"
           className="pl-9"
         />
         {q && (
