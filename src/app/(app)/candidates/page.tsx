@@ -75,15 +75,15 @@ export default async function CandidatesPage({
 
       <CandidatesFilterBar />
 
-      <div className="bg-card border rounded-lg overflow-hidden">
-        <Table>
+      <div className="bg-card border rounded-lg overflow-x-auto">
+        <Table className="table-fixed min-w-[1100px]">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[22%]">氏名</TableHead>
-              <TableHead className="w-[14%]">国籍</TableHead>
-              <TableHead className="w-[20%]">業界</TableHead>
-              <TableHead className="w-[24%]">企業名</TableHead>
-              <TableHead className="w-[20%]">ステータス</TableHead>
+              <TableHead className="w-[300px] whitespace-nowrap">氏名</TableHead>
+              <TableHead className="w-[120px] whitespace-nowrap">国籍</TableHead>
+              <TableHead className="w-[180px] whitespace-nowrap">業界</TableHead>
+              <TableHead className="w-[280px] whitespace-nowrap">企業名</TableHead>
+              <TableHead className="w-[180px] whitespace-nowrap">ステータス</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
