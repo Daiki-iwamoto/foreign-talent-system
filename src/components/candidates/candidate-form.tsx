@@ -1,9 +1,10 @@
 "use client";
 
-import { type UseFormReturn } from "react-hook-form";
+import { Controller, type UseFormReturn } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CompanyCombobox } from "@/components/candidates/company-combobox";
 import type { CandidateFormValues } from "@/lib/schemas";
 
 export function CandidateFormFields({
@@ -15,6 +16,7 @@ export function CandidateFormFields({
 }) {
   const {
     register,
+    control,
     formState: { errors },
   } = form;
 
@@ -44,7 +46,17 @@ export function CandidateFormFields({
         <Input id={id("industry")} {...register("industry")} />
       </Field>
       <Field label="企業名" error={errors.company_name?.message}>
-        <Input id={id("company_name")} {...register("company_name")} />
+        <Controller
+          control={control}
+          name="company_name"
+          render={({ field }) => (
+            <CompanyCombobox
+              id={id("company_name")}
+              value={field.value ?? ""}
+              onChange={field.onChange}
+            />
+          )}
+        />
       </Field>
       <Field label="職種" error={errors.job_title?.message}>
         <Input id={id("job_title")} {...register("job_title")} />
