@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronDown, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from "@/components/ui/popover";
 
 export function InlineCompanyChanger({
   candidateId,
@@ -20,7 +25,6 @@ export function InlineCompanyChanger({
   const [companies, setCompanies] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function loadCompanies() {
@@ -62,19 +66,6 @@ export function InlineCompanyChanger({
     }
   }
 
-  // 外側クリック → 現在の draft をコミット
-  useEffect(() => {
-    if (!open) return;
-    function onClick(e: MouseEvent) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        commit(draft);
-      }
-    }
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, draft, committed]);
-
   const filtered = useMemo(() => {
     if (!draft.trim()) return companies;
     const q = draft.toLowerCase();
@@ -87,77 +78,90 @@ export function InlineCompanyChanger({
 
   return (
     <div
-      ref={wrapRef}
-      className="relative inline-block w-full max-w-[260px]"
+      className="relative w-full max-w-[260px]"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="relative">
-        <input
-          ref={inputRef}
-          type="text"
-          value={draft}
-          onChange={(e) => {
-            setDraft(e.target.value);
-            if (!open) setOpen(true);
-          }}
-          onFocus={() => {
-            setOpen(true);
-            loadCompanies();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              commit(draft);
-              inputRef.current?.blur();
-            } else if (e.key === "Escape") {
-              setDraft(committed);
-              setOpen(false);
-              inputRef.current?.blur();
-            }
-          }}
-          placeholder={committed ? committed : "未設定"}
-          className={cn(
-            "h-7 w-full rounded-md border border-input bg-transparent pl-2 pr-12 text-xs",
-            "focus:outline-none focus:ring-1 focus:ring-ring",
-            "placeholder:text-muted-foreground",
-            !committed && "text-muted-foreground"
-          )}
-        />
-        <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
-          {saving ? (
-            <Loader2 className="size-3 animate-spin text-muted-foreground" />
-          ) : (
-            <>
-              {draft && (
-                <button
-                  type="button"
-                  onClick={() => commit("")}
-                  className="p-0.5 text-muted-foreground hover:text-foreground"
-                  title="クリア"
-                >
-                  <X className="size-3" />
-                </button>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverAnchor asChild>
+          <div className="relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={draft}
+              onChange={(e) => {
+                setDraft(e.target.value);
+                if (!open) setOpen(true);
+              }}
+              onFocus={() => {
+                setOpen(true);
+                loadCompanies();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commit(draft);
+                  inputRef.current?.blur();
+                } else if (e.key === "Escape") {
+                  setDraft(committed);
+                  setOpen(false);
+                  inputRef.current?.blur();
+                }
+              }}
+              placeholder="未設定"
+              className={cn(
+                "h-7 w-full rounded-md border border-input bg-transparent pl-2 pr-12 text-xs",
+                "focus:outline-none focus:ring-1 focus:ring-ring",
+                "placeholder:text-muted-foreground",
+                !committed && "text-muted-foreground"
               )}
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen((o) => !o);
-                  loadCompanies();
-                  inputRef.current?.focus();
-                }}
-                className="p-0.5 text-muted-foreground hover:text-foreground"
-              >
-                <ChevronDown
-                  className={cn("size-3 transition-transform", open && "rotate-180")}
-                />
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+            />
+            <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
+              {saving ? (
+                <Loader2 className="size-3 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  {draft && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        commit("");
+                      }}
+                      className="p-0.5 text-muted-foreground hover:text-foreground"
+                      title="クリア"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpen((o) => !o);
+                      loadCompanies();
+                      inputRef.current?.focus();
+                    }}
+                    className="p-0.5 text-muted-foreground hover:text-foreground"
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "size-3 transition-transform",
+                        open && "rotate-180"
+                      )}
+                    />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </PopoverAnchor>
 
-      {open && (
-        <div className="absolute z-50 mt-1 w-full min-w-[220px] max-h-64 overflow-y-auto rounded-md border bg-popover shadow-md text-xs">
+        <PopoverContent
+          align="start"
+          sideOffset={4}
+          className="p-0 w-[260px] max-h-64 overflow-y-auto text-xs"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           {loading && companies.length === 0 && (
             <div className="px-2 py-1.5 text-muted-foreground flex items-center gap-2">
               <Loader2 className="size-3 animate-spin" />
@@ -190,12 +194,14 @@ export function InlineCompanyChanger({
                 )}
               >
                 <span className="truncate">{c}</span>
-                {isSelected && <Check className="size-3 text-primary shrink-0" />}
+                {isSelected && (
+                  <Check className="size-3 text-primary shrink-0" />
+                )}
               </button>
             );
           })}
-        </div>
-      )}
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
